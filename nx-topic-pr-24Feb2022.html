@@ -1,0 +1,265 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "springgreen", "id": 1003698528, "label": "[weapons,politics] izvestia", "shape": "dot", "size": 10, "value": 0.011811354115038126}, {"color": "lightgray", "id": 1082084045, "label": "[politics] karaulny", "shape": "dot", "size": 10, "value": 0.5072317408129332}, {"color": "lightgray", "id": 1012103617, "label": "[politics] SergeyKolyasnikov", "shape": "dot", "size": 10, "value": 0.15155491284603506}, {"color": "lightgray", "id": 1101806611, "label": "[politics] boris_rozhin", "shape": "dot", "size": 10, "value": 0.31378928221095315}, {"color": "lightgray", "id": 1036362176, "label": "[politics] rt_russian", "shape": "dot", "size": 10, "value": 0.045019631155514404}, {"color": "blue", "id": 1246399946, "label": "[politics,racism] SIL0VIKI", "shape": "dot", "size": 10, "value": 0.5554650991590795}, {"color": "lightgray", "id": 1310493808, "label": "[politics] glavmedia", "shape": "dot", "size": 10, "value": 1.0}, {"color": "khaki", "id": 1054549314, "label": "[weapons] ntvnews", "shape": "dot", "size": 10, "value": 0.032361475050995916}, {"color": "lightgray", "id": 1070404049, "label": "[politics] uranews", "shape": "dot", "size": 10, "value": 0.02441151237452281}, {"color": "lightgray", "id": 1216878621, "label": "[politics] vibornyk", "shape": "dot", "size": 10, "value": 0.49647178689939114}, {"color": "khaki", "id": 1074354585, "label": "[weapons] milinfolive", "shape": "dot", "size": 10, "value": 0.008200802132691457}, {"color": "lightgray", "id": 1283359437, "label": "[politics] voenkorKotenok", "shape": "dot", "size": 10, "value": 0.169411712896648}, {"color": "lightgray", "id": 1105051526, "label": "[politics] Postovo", "shape": "dot", "size": 10, "value": 0.032587124436485974}, {"color": "blue", "id": 1109403194, "label": "[politics,racism] sashakots", "shape": "dot", "size": 10, "value": 0.042020882039697775}, {"color": "blue", "id": 1138914412, "label": "[politics,racism] Doninside", "shape": "dot", "size": 10, "value": 0.04956670210490758}, {"color": "lightgray", "id": 1113237212, "label": "[politics] worldprotest", "shape": "dot", "size": 10, "value": 0.008650486706878955}, {"color": "lightgray", "id": 1418299591, "label": "[politics] truth_aggregator", "shape": "dot", "size": 10, "value": 0.2832628352899878}, {"color": "goldenrod", "id": 1115468824, "label": "[offline_crime,politics] lentadnya", "shape": "dot", "size": 10, "value": 0.005202267716159858}, {"color": "lightgray", "id": 1120807475, "label": "[politics] vladlentatarsky", "shape": "dot", "size": 10, "value": 0.11855487106753897}, {"color": "lightgray", "id": 1263569229, "label": "[politics] vysokygovorit", "shape": "dot", "size": 10, "value": 0.09309138589926437}, {"color": "springgreen", "id": 1124474503, "label": "[weapons,politics] glavpolit", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "lightgray", "id": 1126629353, "label": "[politics] kremlinprachka", "shape": "dot", "size": 10, "value": 0.024562001156637838}, {"color": "lightgray", "id": 1137332367, "label": "[politics] new_militarycolumnist", "shape": "dot", "size": 10, "value": 0.010949299367358351}, {"color": "lightgray", "id": 1223185389, "label": "[politics] smotri_media", "shape": "dot", "size": 10, "value": 0.029141798103251165}, {"color": "lightgray", "id": 1245418852, "label": "[politics] navideovidno", "shape": "dot", "size": 10, "value": 0.08897230031499338}, {"color": "springgreen", "id": 1271343429, "label": "[weapons,politics] Ateobreaking", "shape": "dot", "size": 10, "value": 0.013562871269591291}, {"color": "lightgray", "id": 1279747448, "label": "[politics] mig41", "shape": "dot", "size": 10, "value": 0.14720039929814338}, {"color": "blue", "id": 1134917959, "label": "[politics,racism] superdolgov", "shape": "dot", "size": 10, "value": 0.14153914413129537}, {"color": "lightgray", "id": 1293233260, "label": "[politics] surf_noise1", "shape": "dot", "size": 10, "value": 0.20729921090647416}, {"color": "lightgray", "id": 1315735637, "label": "[politics] SolovievLive", "shape": "dot", "size": 10, "value": 0.2092033613074211}, {"color": "lightgray", "id": 1492765963, "label": "[politics] sskarnaukhov", "shape": "dot", "size": 10, "value": 0.20304972853144576}, {"color": "lightgray", "id": 1355540894, "label": "[politics] RVvoenkor", "shape": "dot", "size": 10, "value": 0.05952280059758393}, {"color": "lightgray", "id": 1024716060, "label": "[politics] holmogortalks", "shape": "dot", "size": 10, "value": 0.11355803512944511}, {"color": "springgreen", "id": 1400338245, "label": "[weapons,politics] svarschiki", "shape": "dot", "size": 10, "value": 0.008412761524648938}, {"color": "blue", "id": 1463486789, "label": "[politics,racism] akimapachev", "shape": "dot", "size": 10, "value": 0.009708928075144365}, {"color": "lightgray", "id": 1215462939, "label": "[politics] anna_news", "shape": "dot", "size": 10, "value": 0.06422542865739697}, {"color": "#97c2fc", "id": 1003879352, "label": 1003879352, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1005031786, "label": 1005031786, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1050820672, "label": 1050820672, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1069772626, "label": 1069772626, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1076999981, "label": 1076999981, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1085428736, "label": 1085428736, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1092413834, "label": 1092413834, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1101170442, "label": 1101170442, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1105250846, "label": 1105250846, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1105313000, "label": 1105313000, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1111348665, "label": 1111348665, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1140991878, "label": 1140991878, "shape": "dot", "size": 10}, {"color": "lightgray", "id": 1144015339, "label": "[politics] HouseOfCardsRussia", "shape": "dot", "size": 10, "value": 0.011811354115038126}, {"color": "#97c2fc", "id": 1144404150, "label": 1144404150, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1164525895, "label": 1164525895, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1175084215, "label": 1175084215, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1188004704, "label": 1188004704, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1198589840, "label": 1198589840, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1200595041, "label": 1200595041, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1210987817, "label": 1210987817, "shape": "dot", "size": 10}, {"color": "slateblue", "id": 1321128351, "label": "[online_crime] Topaz_Govorit", "shape": "dot", "size": 10, "value": 0.004299162742400095}, {"color": "#97c2fc", "id": 1260622817, "label": 1260622817, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1394050290, "label": 1394050290, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1413275904, "label": 1413275904, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1459051914, "label": 1459051914, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1545160197, "label": 1545160197, "shape": "dot", "size": 10}, {"color": "lightgray", "id": 1213234440, "label": "[politics] rtvimain", "shape": "dot", "size": 10, "value": 0.004914916133599934}, {"color": "#97c2fc", "id": 1686844692, "label": 1686844692, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1748115800, "label": 1748115800, "shape": "dot", "size": 10}, {"color": "lightgray", "id": 1003740416, "label": "[politics] kashinguru", "shape": "dot", "size": 10, "value": 0.00941675759370542}, {"color": "slateblue", "id": 1004504016, "label": "[online_crime] otsuka_bld", "shape": "dot", "size": 10, "value": 0.004555726655400029}, {"color": "lightgray", "id": 1005684212, "label": "[politics] varlamov", "shape": "dot", "size": 10, "value": 0.004967562333947069}, {"color": "slateblue", "id": 1007396605, "label": "[online_crime] mestamedia", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "lightgray", "id": 1027388263, "label": "[politics] PlushevChannel", "shape": "dot", "size": 10, "value": 0.07029572055072066}, {"color": "blue", "id": 1027423644, "label": "[politics,racism] kolezev", "shape": "dot", "size": 10, "value": 0.020491965831604522}, {"color": "green", "id": 1030852584, "label": "[religion] ekvinokurova", "shape": "dot", "size": 10, "value": 0.014999629182390912}, {"color": "palegreen", "id": 1035235678, "label": "[racism] skvir", "shape": "dot", "size": 10, "value": 0.0240307197617955}, {"color": "lightgray", "id": 1036240821, "label": "[politics] meduzalive", "shape": "dot", "size": 10, "value": 0.029097565632862803}, {"color": "lightgray", "id": 1038402501, "label": "[politics] kommersant", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "lightgray", "id": 1043238747, "label": "[politics] ia_steklomoy", "shape": "dot", "size": 10, "value": 0.008938411890015407}, {"color": "blue", "id": 1046446760, "label": "[politics,racism] tv360", "shape": "dot", "size": 10, "value": 0.006631559383689099}, {"color": "lightgray", "id": 1052226869, "label": "[politics] fontankaspb", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "lightgray", "id": 1052505009, "label": "[politics] oper_goblin", "shape": "dot", "size": 10, "value": 0.02613210881044741}, {"color": "blue", "id": 1053161069, "label": "[politics,racism] daokedao", "shape": "dot", "size": 10, "value": 0.005776970881279708}, {"color": "lightgray", "id": 1054481184, "label": "[politics] vlast_Zh", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "lightgray", "id": 1054569797, "label": "[politics] dirtytatarstan", "shape": "dot", "size": 10, "value": 0.13205779002021859}, {"color": "lightgray", "id": 1055562978, "label": "[politics] chtddd", "shape": "dot", "size": 10, "value": 0.011524002532478199}, {"color": "springgreen", "id": 1061039667, "label": "[weapons,politics] polittemnik", "shape": "dot", "size": 10, "value": 0.004761366956443001}, {"color": "blue", "id": 1065276858, "label": "[politics,racism] MID_Russia", "shape": "dot", "size": 10, "value": 0.007932107750479143}, {"color": "lightgray", "id": 1071040207, "label": "[politics] fuckyouthatswhy", "shape": "dot", "size": 10, "value": 0.05065939300364717}, {"color": "lightgray", "id": 1078100205, "label": "[politics] go338", "shape": "dot", "size": 10, "value": 0.25236953741521195}, {"color": "lightgray", "id": 1080591998, "label": "[politics] russianfuture", "shape": "dot", "size": 10, "value": 0.01085525703124783}, {"color": "lightgray", "id": 1085671411, "label": "[politics] rlz_the_kraken", "shape": "dot", "size": 10, "value": 0.019954788453911725}, {"color": "lightgray", "id": 1093357968, "label": "[politics] epoddubny", "shape": "dot", "size": 10, "value": 0.016591768627528376}, {"color": "lightgray", "id": 1096463945, "label": "[politics] russica2", "shape": "dot", "size": 10, "value": 0.022269464537850774}, {"color": "lightgray", "id": 1096981383, "label": "[politics] larkin_doc", "shape": "dot", "size": 10, "value": 0.12262196386142378}, {"color": "lightgray", "id": 1098321028, "label": "[politics] stormdaily", "shape": "dot", "size": 10, "value": 0.026391353961305458}, {"color": "lightgray", "id": 1098370560, "label": "[politics] politjoystic", "shape": "dot", "size": 10, "value": 0.05373366309687542}, {"color": "lightgray", "id": 1099350027, "label": "[politics] rusbrief", "shape": "dot", "size": 10, "value": 0.08982679986807529}, {"color": "lightgray", "id": 1099737840, "label": "[politics] rusvesnasu", "shape": "dot", "size": 10, "value": 0.18390410694238005}, {"color": "lightgray", "id": 1099760830, "label": "[politics] akashevarova", "shape": "dot", "size": 10, "value": 0.007703916787858026}, {"color": "lightgray", "id": 1099766298, "label": "[politics] criminalru", "shape": "dot", "size": 10, "value": 0.030543129334121632}, {"color": "green", "id": 1100118939, "label": "[religion] sncmag", "shape": "dot", "size": 10, "value": 0.00625706790792707}, {"color": "lightgray", "id": 1106998917, "label": "[politics] kstati_p", "shape": "dot", "size": 10, "value": 0.004225272335456115}, {"color": "slateblue", "id": 1109145894, "label": "[online_crime] mediatech", "shape": "dot", "size": 10, "value": 0.02860439625254676}, {"color": "lightgray", "id": 1109279145, "label": "[politics] akitilop", "shape": "dot", "size": 10, "value": 0.06004348114833261}, {"color": "lightgray", "id": 1111072403, "label": "[politics] truekpru", "shape": "dot", "size": 10, "value": 0.012494584654429243}, {"color": "lightgray", "id": 1114515244, "label": "[politics] vzglyad_ru", "shape": "dot", "size": 10, "value": 0.06332953685161584}, {"color": "blue", "id": 1114685706, "label": "[politics,racism] tikandelaki", "shape": "dot", "size": 10, "value": 0.0080691056028834}, {"color": "springgreen", "id": 1117559966, "label": "[weapons,politics] operdrain", "shape": "dot", "size": 10, "value": 0.0462117867668925}, {"color": "springgreen", "id": 1117628569, "label": "[weapons,politics] breakingmash", "shape": "dot", "size": 10, "value": 0.009225189871998803}, {"color": "lightgray", "id": 1118679396, "label": "[politics] podosokorsky", "shape": "dot", "size": 10, "value": 0.0442570446126362}, {"color": "lightgray", "id": 1120151877, "label": "[politics] Gubery", "shape": "dot", "size": 10, "value": 0.28550981387786567}, {"color": "lightgray", "id": 1124038902, "label": "[politics] varlamov_news", "shape": "dot", "size": 10, "value": 0.006453571552547355}, {"color": "red", "id": 1126914293, "label": "[offline_crime] ASGasparyan", "shape": "dot", "size": 10, "value": 0.01833329386068856}, {"color": "lightgray", "id": 1133223027, "label": "[politics] sorok40russia", "shape": "dot", "size": 10, "value": 0.17958007170621162}, {"color": "lightgray", "id": 1134053707, "label": "[politics] Medvedeva_Olesya", "shape": "dot", "size": 10, "value": 0.004435996829333393}, {"color": "slateblue", "id": 1134554551, "label": "[online_crime] Baronova", "shape": "dot", "size": 10, "value": 0.005776970881279708}, {"color": "blue", "id": 1134659841, "label": "[politics,racism] golosmordora", "shape": "dot", "size": 10, "value": 0.058670052853349905}, {"color": "springgreen", "id": 1135021433, "label": "[weapons,politics] wargonzo", "shape": "dot", "size": 10, "value": 0.006436212025178225}, {"color": "lightgray", "id": 1136078154, "label": "[politics] Nackepelo", "shape": "dot", "size": 10, "value": 0.008650486706878955}, {"color": "springgreen", "id": 1136444638, "label": "[weapons,politics] SonOfMonarchy", "shape": "dot", "size": 10, "value": 0.006867647398614236}, {"color": "blue", "id": 1136605823, "label": "[politics,racism] boilerroomchannel", "shape": "dot", "size": 10, "value": 0.03858604736935606}, {"color": "lightgray", "id": 1138542535, "label": "[politics] regnum_na", "shape": "dot", "size": 10, "value": 0.05109689215615539}, {"color": "lightgray", "id": 1138559574, "label": "[politics] oreshkins", "shape": "dot", "size": 10, "value": 0.014101855016999544}, {"color": "slateblue", "id": 1140809683, "label": "[online_crime] thebell_io", "shape": "dot", "size": 10, "value": 0.004340212968480085}, {"color": "lightgray", "id": 1141631276, "label": "[politics] antiskrepa", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "lightgray", "id": 1142970078, "label": "[politics] ctrs2018", "shape": "dot", "size": 10, "value": 0.009438714017914483}, {"color": "lightgray", "id": 1144180066, "label": "[politics] swodki", "shape": "dot", "size": 10, "value": 0.0355980387791744}, {"color": "lightgray", "id": 1146075551, "label": "[politics] informnapalm", "shape": "dot", "size": 10, "value": 0.014397518358077448}, {"color": "green", "id": 1147203857, "label": "[religion] Marinaslovo", "shape": "dot", "size": 10, "value": 0.004914916133599934}, {"color": "lightgray", "id": 1149656657, "label": "[politics] RadioStydoba", "shape": "dot", "size": 10, "value": 0.0104417646250457}, {"color": "lightgray", "id": 1164348791, "label": "[politics] Sladkov_plus", "shape": "dot", "size": 10, "value": 0.004994510940962066}, {"color": "blue", "id": 1166834860, "label": "[politics,racism] ru2ch_news", "shape": "dot", "size": 10, "value": 0.006064322463839633}, {"color": "lightgray", "id": 1168636470, "label": "[politics] Soldieroffortune777", "shape": "dot", "size": 10, "value": 0.009225189871998803}, {"color": "blue", "id": 1169436645, "label": "[politics,racism] grishkafilippov", "shape": "dot", "size": 10, "value": 0.06932795907203089}, {"color": "lightgray", "id": 1183570279, "label": "[politics] mardanaka", "shape": "dot", "size": 10, "value": 0.06869341294014812}, {"color": "lightgray", "id": 1192450220, "label": "[politics] skabeeva", "shape": "dot", "size": 10, "value": 0.00836313512431903}, {"color": "lightgray", "id": 1199117533, "label": "[politics] MedvedevVesti", "shape": "dot", "size": 10, "value": 0.22365439155542194}, {"color": "lightgray", "id": 1200796890, "label": "[politics] vandalslavyansk", "shape": "dot", "size": 10, "value": 0.005489642106157297}, {"color": "blue", "id": 1217080686, "label": "[politics,racism] zakharprilepin", "shape": "dot", "size": 10, "value": 0.00799126837041795}, {"color": "springgreen", "id": 1218410161, "label": "[weapons,politics] ChDambiev", "shape": "dot", "size": 10, "value": 0.02987114514793099}, {"color": "blue", "id": 1227152968, "label": "[politics,racism] margaritasimonyan", "shape": "dot", "size": 10, "value": 0.13768632923675164}, {"color": "blue", "id": 1227987253, "label": "[politics,racism] kornilov1968", "shape": "dot", "size": 10, "value": 0.04908817851132418}, {"color": "lightgray", "id": 1231519967, "label": "[politics] nevzorovtv", "shape": "dot", "size": 10, "value": 0.036304132771628105}, {"color": "blue", "id": 1242933179, "label": "[politics,racism] ErnestV_2020", "shape": "dot", "size": 10, "value": 0.10772296494233262}, {"color": "blue", "id": 1253974160, "label": "[politics,racism] obrazbuduschego2", "shape": "dot", "size": 10, "value": 0.009189987360708342}, {"color": "lightgray", "id": 1255929553, "label": "[politics] ntnzn", "shape": "dot", "size": 10, "value": 0.019701884757839}, {"color": "lightgray", "id": 1261603870, "label": "[politics] Abbasdjuma", "shape": "dot", "size": 10, "value": 0.006518189553674198}, {"color": "springgreen", "id": 1263953596, "label": "[weapons,politics] grey_zone", "shape": "dot", "size": 10, "value": 0.0214197969866792}, {"color": "violet", "id": 1272953589, "label": "[social_injustice] Alekhin_Telega", "shape": "dot", "size": 10, "value": 0.032884499042056085}, {"color": "blue", "id": 1283625381, "label": "[politics,racism] msgazdiev", "shape": "dot", "size": 10, "value": 0.01166916775389235}, {"color": "khaki", "id": 1290367545, "label": "[weapons] rogers_kitchen", "shape": "dot", "size": 10, "value": 0.04090271276972741}, {"color": "blue", "id": 1291953231, "label": "[politics,racism] mariabutina", "shape": "dot", "size": 10, "value": 0.021996568341576355}, {"color": "blue", "id": 1292891939, "label": "[politics,racism] romanov_92", "shape": "dot", "size": 10, "value": 0.02282348943817059}, {"color": "slateblue", "id": 1294395501, "label": "[online_crime] russianquarantine", "shape": "dot", "size": 10, "value": 0.009512541454558729}, {"color": "lightgray", "id": 1296355218, "label": "[politics] pravda_shuravi", "shape": "dot", "size": 10, "value": 0.05673884848331516}, {"color": "blue", "id": 1297869576, "label": "[politics,racism] minaevlife", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "orchid", "id": 1324086929, "label": "[drugs] bogemasranaya", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "lightgray", "id": 1330634777, "label": "[politics] kremlebezBashennik", "shape": "dot", "size": 10, "value": 0.05491409149902683}, {"color": "lightgray", "id": 1331641097, "label": "[politics] donbassr", "shape": "dot", "size": 10, "value": 0.042102148494310446}, {"color": "lightgray", "id": 1331994540, "label": "[politics] dr_alex_sosnowski", "shape": "dot", "size": 10, "value": 0.03004533123702317}, {"color": "lightgray", "id": 1345769364, "label": "[politics] krasovkin", "shape": "dot", "size": 10, "value": 0.005594110783287028}, {"color": "blue", "id": 1363490654, "label": "[politics,racism] astrahandm", "shape": "dot", "size": 10, "value": 0.009471491228478738}, {"color": "lightgray", "id": 1364127568, "label": "[politics] romagolovanov", "shape": "dot", "size": 10, "value": 0.037310663236567176}, {"color": "lightgray", "id": 1370630176, "label": "[politics] foxandraven", "shape": "dot", "size": 10, "value": 0.01209870569759805}, {"color": "lightgray", "id": 1371150343, "label": "[politics] tolk_tolk", "shape": "dot", "size": 10, "value": 0.007501080376639256}, {"color": "lightgray", "id": 1372503768, "label": "[politics] KotNaMirotvorze", "shape": "dot", "size": 10, "value": 0.02585720287978994}, {"color": "lightgray", "id": 1373485405, "label": "[politics] emphasises", "shape": "dot", "size": 10, "value": 0.012769192723571207}, {"color": "blue", "id": 1376995133, "label": "[politics,racism] rasstrelny", "shape": "dot", "size": 10, "value": 0.005675069899858205}, {"color": "violet", "id": 1377498795, "label": "[social_injustice] mosnow", "shape": "dot", "size": 10, "value": 0.00656985647658997}, {"color": "red", "id": 1382842129, "label": "[offline_crime] sotaproject", "shape": "dot", "size": 10, "value": 0.01209870569759805}, {"color": "lightgray", "id": 1409792267, "label": "[politics] mariashukshina", "shape": "dot", "size": 10, "value": 0.06721953772205518}, {"color": "goldenrod", "id": 1429590454, "label": "[offline_crime,politics] redakciya_channel", "shape": "dot", "size": 10, "value": 0.007812377924412507}, {"color": "blue", "id": 1436845607, "label": "[politics,racism] DmitriySteshin", "shape": "dot", "size": 10, "value": 0.1309655079247976}, {"color": "lightgray", "id": 1437733910, "label": "[politics] sputniklive", "shape": "dot", "size": 10, "value": 0.03623674916199249}, {"color": "blue", "id": 1441564230, "label": "[politics,racism] notes_veterans", "shape": "dot", "size": 10, "value": 0.03206391955036916}, {"color": "lightgray", "id": 1442283985, "label": "[politics] kozakrichala", "shape": "dot", "size": 10, "value": 0.23452670578181273}, {"color": "magenta", "id": 1443124285, "label": "[slavery] mnews_ru", "shape": "dot", "size": 10, "value": 0.005776970881279708}, {"color": "lightgray", "id": 1450141660, "label": "[politics] vityzeva", "shape": "dot", "size": 10, "value": 0.06801045017856897}, {"color": "lightgray", "id": 1453804949, "label": "[politics] OstashkoNews", "shape": "dot", "size": 10, "value": 0.03747656442141137}, {"color": "lightgray", "id": 1464146642, "label": "[politics] RtrDonetsk", "shape": "dot", "size": 10, "value": 0.04514510928998053}, {"color": "lightgray", "id": 1465354533, "label": "[politics] madam_secretar", "shape": "dot", "size": 10, "value": 0.06420622018823281}, {"color": "blue", "id": 1467753391, "label": "[politics,racism] lesyaryabtseva", "shape": "dot", "size": 10, "value": 0.010158210738329784}, {"color": "lightgray", "id": 1476513844, "label": "[politics] sommerman", "shape": "dot", "size": 10, "value": 0.022740757172517046}, {"color": "blue", "id": 1486508046, "label": "[politics,racism] evgenyprimakov", "shape": "dot", "size": 10, "value": 0.00483040096225878}, {"color": "lightgray", "id": 1487313256, "label": "[politics] octagonmedia", "shape": "dot", "size": 10, "value": 0.015400636609923002}, {"color": "lightgray", "id": 1490589952, "label": "[politics] lobaev_vlad", "shape": "dot", "size": 10, "value": 0.060204052523536916}, {"color": "blue", "id": 1497011710, "label": "[politics,racism] bloodysx", "shape": "dot", "size": 10, "value": 0.010374596202238502}, {"color": "blue", "id": 1497591396, "label": "[politics,racism] riafan_everywhere", "shape": "dot", "size": 10, "value": 0.00836313512431903}, {"color": "lightgray", "id": 1497767963, "label": "[politics] FridrihShow", "shape": "dot", "size": 10, "value": 0.005071343793838182}, {"color": "springgreen", "id": 1498939244, "label": "[weapons,politics] voenacher", "shape": "dot", "size": 10, "value": 0.054381245775897966}, {"color": "lightgray", "id": 1540992315, "label": "[politics] anatoly_nesmiyan", "shape": "dot", "size": 10, "value": 0.00879018341615039}, {"color": "magenta", "id": 1552600246, "label": "[slavery] srochnow", "shape": "dot", "size": 10, "value": 0.005916015624964495}, {"color": "blue", "id": 1615391232, "label": "[politics,racism] GrafinyaNegoduet", "shape": "dot", "size": 10, "value": 0.006547875499471957}, {"color": "lightgray", "id": 1664841264, "label": "[politics] BattleSailor_13", "shape": "dot", "size": 10, "value": 0.005376368969122637}, {"color": "blue", "id": 1739719658, "label": "[politics,racism] gramotyyaroslava", "shape": "dot", "size": 10, "value": 0.07007948609459998}, {"color": "springgreen", "id": 1783083983, "label": "[weapons,politics] denazi_UA", "shape": "dot", "size": 10, "value": 0.017396229790106413}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": 1003698528, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1012103617, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1012103617, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1036362176, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1036362176, "to": 1246399946, "width": 1}, {"arrows": "to", "from": 1036362176, "to": 1310493808, "width": 1}, {"arrows": "to", "from": 1054549314, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1070404049, "to": 1216878621, "width": 1}, {"arrows": "to", "from": 1070404049, "to": 1310493808, "width": 1}, {"arrows": "to", "from": 1074354585, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1101806611, "to": 1246399946, "width": 1}, {"arrows": "to", "from": 1101806611, "to": 1283359437, "width": 1}, {"arrows": "to", "from": 1105051526, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1109403194, "to": 1138914412, "width": 1}, {"arrows": "to", "from": 1113237212, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1115468824, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1115468824, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1120807475, "to": 1263569229, "width": 1}, {"arrows": "to", "from": 1124474503, "to": 1246399946, "width": 1}, {"arrows": "to", "from": 1126629353, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1137332367, "to": 1310493808, "width": 1}, {"arrows": "to", "from": 1137332367, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1138914412, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1223185389, "to": 1245418852, "width": 1}, {"arrows": "to", "from": 1223185389, "to": 1310493808, "width": 1}, {"arrows": "to", "from": 1246399946, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1263569229, "to": 1120807475, "width": 1}, {"arrows": "to", "from": 1263569229, "to": 1246399946, "width": 1}, {"arrows": "to", "from": 1271343429, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1279747448, "to": 1012103617, "width": 1}, {"arrows": "to", "from": 1279747448, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1279747448, "to": 1134917959, "width": 1}, {"arrows": "to", "from": 1279747448, "to": 1246399946, "width": 1}, {"arrows": "to", "from": 1279747448, "to": 1310493808, "width": 1}, {"arrows": "to", "from": 1283359437, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1293233260, "to": 1246399946, "width": 1}, {"arrows": "to", "from": 1315735637, "to": 1492765963, "width": 1}, {"arrows": "to", "from": 1355540894, "to": 1024716060, "width": 1}, {"arrows": "to", "from": 1400338245, "to": 1246399946, "width": 1}, {"arrows": "to", "from": 1463486789, "to": 1215462939, "width": 1}, {"arrows": "to", "from": 1003879352, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1005031786, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1050820672, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1069772626, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1076999981, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1085428736, "to": 1310493808, "width": 1}, {"arrows": "to", "from": 1092413834, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1101170442, "to": 1315735637, "width": 1}, {"arrows": "to", "from": 1101170442, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1105250846, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1105313000, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1111348665, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1111348665, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1140991878, "to": 1144015339, "width": 1}, {"arrows": "to", "from": 1144404150, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1164525895, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1175084215, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1188004704, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1198589840, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1200595041, "to": 1279747448, "width": 1}, {"arrows": "to", "from": 1210987817, "to": 1321128351, "width": 1}, {"arrows": "to", "from": 1260622817, "to": 1245418852, "width": 1}, {"arrows": "to", "from": 1260622817, "to": 1310493808, "width": 1}, {"arrows": "to", "from": 1260622817, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1394050290, "to": 1024716060, "width": 1}, {"arrows": "to", "from": 1394050290, "to": 1082084045, "width": 1}, {"arrows": "to", "from": 1394050290, "to": 1216878621, "width": 1}, {"arrows": "to", "from": 1394050290, "to": 1245418852, "width": 1}, {"arrows": "to", "from": 1394050290, "to": 1310493808, "width": 1}, {"arrows": "to", "from": 1413275904, "to": 1418299591, "width": 1}, {"arrows": "to", "from": 1459051914, "to": 1012103617, "width": 1}, {"arrows": "to", "from": 1459051914, "to": 1101806611, "width": 1}, {"arrows": "to", "from": 1545160197, "to": 1213234440, "width": 1}, {"arrows": "to", "from": 1686844692, "to": 1036362176, "width": 1}, {"arrows": "to", "from": 1748115800, "to": 1418299591, "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

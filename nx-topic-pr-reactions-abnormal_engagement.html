@@ -1,0 +1,170 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": 1005684212, "label": "varlamov", "shape": "dot", "size": 10, "value": 0.053621050450098746}, {"color": "#97c2fc", "id": 1124038902, "label": "varlamov_news", "shape": "dot", "size": 10, "value": 0.08483208815282853}, {"color": "#97c2fc", "id": 1012103617, "label": "SergeyKolyasnikov", "shape": "dot", "size": 10, "value": 0.39857367307056124}, {"color": "#97c2fc", "id": 1101806611, "label": "boris_rozhin", "shape": "dot", "size": 10, "value": 0.33395965519522003}, {"color": "#97c2fc", "id": 1293233260, "label": "surf_noise1", "shape": "dot", "size": 10, "value": 0.47529846131324516}, {"color": "#97c2fc", "id": 1315735637, "label": "SolovievLive", "shape": "dot", "size": 10, "value": 0.48912832071524587}, {"color": "#97c2fc", "id": 1036362176, "label": "rt_russian", "shape": "dot", "size": 10, "value": 0.14684029549369051}, {"color": "#97c2fc", "id": 1093357968, "label": "epoddubny", "shape": "dot", "size": 10, "value": 0.21635996526355653}, {"color": "#97c2fc", "id": 1109403194, "label": "sashakots", "shape": "dot", "size": 10, "value": 0.3288906026981159}, {"color": "#97c2fc", "id": 1288236400, "label": "Mikle1On", "shape": "dot", "size": 10, "value": 0.17410842353982958}, {"color": "#97c2fc", "id": 1492765963, "label": "sskarnaukhov", "shape": "dot", "size": 10, "value": 0.3564479030458377}, {"color": "#97c2fc", "id": 1283359437, "label": "voenkorKotenok", "shape": "dot", "size": 10, "value": 0.4203795092683942}, {"color": "#97c2fc", "id": 1498939244, "label": "voenacher", "shape": "dot", "size": 10, "value": 0.1327459153514958}, {"color": "#97c2fc", "id": 1099737840, "label": "rusvesnasu", "shape": "dot", "size": 10, "value": 0.1050570876629264}, {"color": "#97c2fc", "id": 1355540894, "label": "RVvoenkor", "shape": "dot", "size": 10, "value": 0.13117106777796958}, {"color": "#97c2fc", "id": 1105051526, "label": "Postovo", "shape": "dot", "size": 10, "value": 0.14822301740080282}, {"color": "#97c2fc", "id": 1134659841, "label": "golosmordora", "shape": "dot", "size": 10, "value": 0.2441985854985401}, {"color": "#97c2fc", "id": 1215462939, "label": "anna_news", "shape": "dot", "size": 10, "value": 0.15907864207112662}, {"color": "#97c2fc", "id": 1387701698, "label": "rosich_ru", "shape": "dot", "size": 10, "value": 0.18192165722692297}, {"color": "#97c2fc", "id": 1144180066, "label": "swodki", "shape": "dot", "size": 10, "value": 0.20382869633086653}, {"color": "#97c2fc", "id": 1164348791, "label": "Sladkov_plus", "shape": "dot", "size": 10, "value": 0.057179703196970424}, {"color": "#97c2fc", "id": 1210987817, "label": "NeoficialniyBeZsonoV", "shape": "dot", "size": 10, "value": 0.02428858872631932}, {"color": "#97c2fc", "id": 1647639783, "label": "opersvodki", "shape": "dot", "size": 10, "value": 0.09188952408208506}, {"color": "#97c2fc", "id": 1227987253, "label": "kornilov1968", "shape": "dot", "size": 10, "value": 0.16462769862435442}, {"color": "#97c2fc", "id": 1374440171, "label": "archivarius_dz", "shape": "dot", "size": 10, "value": 0.17414995432228014}, {"color": "#97c2fc", "id": 1464146642, "label": "RtrDonetsk", "shape": "dot", "size": 10, "value": 0.10620005101461395}, {"color": "#97c2fc", "id": 1739719658, "label": "gramotyyaroslava", "shape": "dot", "size": 10, "value": 0.26557090011779233}, {"color": "#97c2fc", "id": 1069772626, "label": 1069772626, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1114685706, "label": 1114685706, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1135021433, "label": 1135021433, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1444329502, "label": 1444329502, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1736895964, "label": 1736895964, "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": 1099350027, "label": "rusbrief", "shape": "dot", "size": 10, "value": 0.33520537654090593}, {"color": "#97c2fc", "id": 1245418852, "label": "navideovidno", "shape": "dot", "size": 10, "value": 0.3819241458192614}, {"color": "#97c2fc", "id": 1310493808, "label": "glavmedia", "shape": "dot", "size": 10, "value": 1.0}, {"color": "#97c2fc", "id": 1407902266, "label": "strelkovii", "shape": "dot", "size": 10, "value": 0.009709123274588756}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": 1005684212, "to": 1124038902, "width": 1.9270949777860924}, {"arrows": "to", "from": 1012103617, "to": 1101806611, "width": 2.005422127758709}, {"arrows": "to", "from": 1012103617, "to": 1293233260, "width": 1.710468972744649}, {"arrows": "to", "from": 1012103617, "to": 1315735637, "width": 2.1096495010183896}, {"arrows": "to", "from": 1036362176, "to": 1012103617, "width": 1.7631494917482282}, {"arrows": "to", "from": 1036362176, "to": 1093357968, "width": 1.9209038552846007}, {"arrows": "to", "from": 1036362176, "to": 1101806611, "width": 2.079787768153797}, {"arrows": "to", "from": 1036362176, "to": 1109403194, "width": 1.7833099787587914}, {"arrows": "to", "from": 1036362176, "to": 1288236400, "width": 1.6856984298708892}, {"arrows": "to", "from": 1036362176, "to": 1315735637, "width": 2.140879473447202}, {"arrows": "to", "from": 1036362176, "to": 1492765963, "width": 1.9125568072979784}, {"arrows": "to", "from": 1093357968, "to": 1012103617, "width": 1.7525083283412817}, {"arrows": "to", "from": 1093357968, "to": 1101806611, "width": 1.9215974593947671}, {"arrows": "to", "from": 1093357968, "to": 1109403194, "width": 2.0543600784872122}, {"arrows": "to", "from": 1093357968, "to": 1283359437, "width": 1.7037037412508902}, {"arrows": "to", "from": 1093357968, "to": 1315735637, "width": 2.2017089218715897}, {"arrows": "to", "from": 1093357968, "to": 1498939244, "width": 1.6911979082556812}, {"arrows": "to", "from": 1099737840, "to": 1101806611, "width": 1.7616362528725593}, {"arrows": "to", "from": 1099737840, "to": 1315735637, "width": 1.7178844357427498}, {"arrows": "to", "from": 1099737840, "to": 1355540894, "width": 2.1842294699092872}, {"arrows": "to", "from": 1101806611, "to": 1012103617, "width": 1.8868495499651303}, {"arrows": "to", "from": 1101806611, "to": 1109403194, "width": 1.7231189905385333}, {"arrows": "to", "from": 1101806611, "to": 1283359437, "width": 1.8623101097719397}, {"arrows": "to", "from": 1101806611, "to": 1288236400, "width": 2.1963684373616332}, {"arrows": "to", "from": 1101806611, "to": 1293233260, "width": 1.803185937296485}, {"arrows": "to", "from": 1101806611, "to": 1315735637, "width": 2.1461031850637533}, {"arrows": "to", "from": 1101806611, "to": 1355540894, "width": 2.1205905469679687}, {"arrows": "to", "from": 1101806611, "to": 1492765963, "width": 1.6976343413662294}, {"arrows": "to", "from": 1101806611, "to": 1498939244, "width": 1.8458989906398884}, {"arrows": "to", "from": 1105051526, "to": 1293233260, "width": 1.7823737044513959}, {"arrows": "to", "from": 1105051526, "to": 1315735637, "width": 1.8762273691932914}, {"arrows": "to", "from": 1109403194, "to": 1012103617, "width": 1.8624445797875235}, {"arrows": "to", "from": 1109403194, "to": 1093357968, "width": 2.18150029407535}, {"arrows": "to", "from": 1109403194, "to": 1101806611, "width": 1.9980209165635774}, {"arrows": "to", "from": 1109403194, "to": 1134659841, "width": 1.680122971109247}, {"arrows": "to", "from": 1109403194, "to": 1215462939, "width": 1.7724167867722633}, {"arrows": "to", "from": 1109403194, "to": 1283359437, "width": 1.7426897071254126}, {"arrows": "to", "from": 1109403194, "to": 1288236400, "width": 1.7811709898343857}, {"arrows": "to", "from": 1109403194, "to": 1293233260, "width": 1.7055801784843148}, {"arrows": "to", "from": 1109403194, "to": 1315735637, "width": 2.226935786527069}, {"arrows": "to", "from": 1109403194, "to": 1387701698, "width": 1.667929284327487}, {"arrows": "to", "from": 1109403194, "to": 1492765963, "width": 1.7327848749123131}, {"arrows": "to", "from": 1109403194, "to": 1498939244, "width": 1.7933747913760592}, {"arrows": "to", "from": 1134659841, "to": 1315735637, "width": 1.9353849552027853}, {"arrows": "to", "from": 1144180066, "to": 1315735637, "width": 1.8668675541408255}, {"arrows": "to", "from": 1144180066, "to": 1492765963, "width": 1.8069312682532088}, {"arrows": "to", "from": 1164348791, "to": 1012103617, "width": 1.6896017700602004}, {"arrows": "to", "from": 1164348791, "to": 1101806611, "width": 1.8345419731390804}, {"arrows": "to", "from": 1164348791, "to": 1315735637, "width": 2.117103321627461}, {"arrows": "to", "from": 1164348791, "to": 1355540894, "width": 1.915077775664919}, {"arrows": "to", "from": 1210987817, "to": 1012103617, "width": 1.7586972306506015}, {"arrows": "to", "from": 1210987817, "to": 1101806611, "width": 2.1242439970302627}, {"arrows": "to", "from": 1210987817, "to": 1109403194, "width": 1.8773186312810697}, {"arrows": "to", "from": 1210987817, "to": 1144180066, "width": 1.8446597061462777}, {"arrows": "to", "from": 1210987817, "to": 1283359437, "width": 1.6893804388126543}, {"arrows": "to", "from": 1210987817, "to": 1288236400, "width": 1.9011068722542952}, {"arrows": "to", "from": 1210987817, "to": 1315735637, "width": 2.101015576506209}, {"arrows": "to", "from": 1210987817, "to": 1355540894, "width": 1.6747080964880807}, {"arrows": "to", "from": 1210987817, "to": 1498939244, "width": 1.8370889645462956}, {"arrows": "to", "from": 1210987817, "to": 1647639783, "width": 1.7567446115997465}, {"arrows": "to", "from": 1215462939, "to": 1101806611, "width": 2.083561467422842}, {"arrows": "to", "from": 1215462939, "to": 1288236400, "width": 2.086940006555302}, {"arrows": "to", "from": 1215462939, "to": 1315735637, "width": 1.9754795533272322}, {"arrows": "to", "from": 1215462939, "to": 1355540894, "width": 1.7027027218299609}, {"arrows": "to", "from": 1227987253, "to": 1315735637, "width": 2.040802636230723}, {"arrows": "to", "from": 1283359437, "to": 1101806611, "width": 2.1197634902483222}, {"arrows": "to", "from": 1283359437, "to": 1288236400, "width": 1.6798298232241526}, {"arrows": "to", "from": 1283359437, "to": 1315735637, "width": 2.021849324118417}, {"arrows": "to", "from": 1283359437, "to": 1492765963, "width": 1.6950052372281954}, {"arrows": "to", "from": 1293233260, "to": 1101806611, "width": 1.7063581150954006}, {"arrows": "to", "from": 1293233260, "to": 1315735637, "width": 1.8547008058403194}, {"arrows": "to", "from": 1315735637, "to": 1093357968, "width": 1.789909266775977}, {"arrows": "to", "from": 1315735637, "to": 1109403194, "width": 1.8072029540021193}, {"arrows": "to", "from": 1315735637, "to": 1293233260, "width": 1.8065263621866483}, {"arrows": "to", "from": 1315735637, "to": 1355540894, "width": 1.8270208779338326}, {"arrows": "to", "from": 1315735637, "to": 1492765963, "width": 1.9376317721145124}, {"arrows": "to", "from": 1355540894, "to": 1012103617, "width": 1.7232150163783182}, {"arrows": "to", "from": 1355540894, "to": 1099737840, "width": 1.985999277597193}, {"arrows": "to", "from": 1355540894, "to": 1101806611, "width": 2.2031590054912065}, {"arrows": "to", "from": 1355540894, "to": 1215462939, "width": 1.7081517716813501}, {"arrows": "to", "from": 1355540894, "to": 1283359437, "width": 1.667496680414433}, {"arrows": "to", "from": 1355540894, "to": 1288236400, "width": 2.013302145684248}, {"arrows": "to", "from": 1355540894, "to": 1293233260, "width": 1.6680340070610813}, {"arrows": "to", "from": 1355540894, "to": 1315735637, "width": 2.2140693739304043}, {"arrows": "to", "from": 1355540894, "to": 1355540894, "width": 1.7296896697997746}, {"arrows": "to", "from": 1355540894, "to": 1387701698, "width": 1.700577776744213}, {"arrows": "to", "from": 1355540894, "to": 1647639783, "width": 1.8332807854550914}, {"arrows": "to", "from": 1374440171, "to": 1293233260, "width": 1.6724112455546079}, {"arrows": "to", "from": 1464146642, "to": 1012103617, "width": 1.7752252411708698}, {"arrows": "to", "from": 1464146642, "to": 1093357968, "width": 1.8493529369373203}, {"arrows": "to", "from": 1464146642, "to": 1101806611, "width": 1.970551322012995}, {"arrows": "to", "from": 1464146642, "to": 1109403194, "width": 1.9391996935361402}, {"arrows": "to", "from": 1464146642, "to": 1283359437, "width": 1.68210000655099}, {"arrows": "to", "from": 1464146642, "to": 1288236400, "width": 1.9157319240972595}, {"arrows": "to", "from": 1464146642, "to": 1315735637, "width": 2.100309814950738}, {"arrows": "to", "from": 1464146642, "to": 1492765963, "width": 1.7308613926969434}, {"arrows": "to", "from": 1492765963, "to": 1315735637, "width": 2.079833811805765}, {"arrows": "to", "from": 1498939244, "to": 1012103617, "width": 1.707564719389895}, {"arrows": "to", "from": 1498939244, "to": 1093357968, "width": 1.8395094720397829}, {"arrows": "to", "from": 1498939244, "to": 1101806611, "width": 2.055057197097972}, {"arrows": "to", "from": 1498939244, "to": 1109403194, "width": 1.7441363450863234}, {"arrows": "to", "from": 1498939244, "to": 1283359437, "width": 1.6743131634011537}, {"arrows": "to", "from": 1498939244, "to": 1288236400, "width": 1.9563366069118384}, {"arrows": "to", "from": 1498939244, "to": 1315735637, "width": 2.007856164844545}, {"arrows": "to", "from": 1647639783, "to": 1012103617, "width": 1.7342608232140906}, {"arrows": "to", "from": 1647639783, "to": 1093357968, "width": 1.6867657831777036}, {"arrows": "to", "from": 1647639783, "to": 1101806611, "width": 2.0134119742197547}, {"arrows": "to", "from": 1647639783, "to": 1288236400, "width": 1.788072312846361}, {"arrows": "to", "from": 1647639783, "to": 1293233260, "width": 1.7505038949521226}, {"arrows": "to", "from": 1647639783, "to": 1315735637, "width": 1.9141301488035978}, {"arrows": "to", "from": 1647639783, "to": 1355540894, "width": 1.8939209940021895}, {"arrows": "to", "from": 1739719658, "to": 1315735637, "width": 1.7505825642178718}, {"arrows": "to", "from": 1069772626, "to": 1101806611, "width": 1.7103598236787336}, {"arrows": "to", "from": 1069772626, "to": 1134659841, "width": 1.6812909707971417}, {"arrows": "to", "from": 1069772626, "to": 1293233260, "width": 1.7201741839839244}, {"arrows": "to", "from": 1069772626, "to": 1315735637, "width": 2.2881751462146993}, {"arrows": "to", "from": 1069772626, "to": 1492765963, "width": 1.8586060128357096}, {"arrows": "to", "from": 1114685706, "to": 1315735637, "width": 1.7426991254248267}, {"arrows": "to", "from": 1135021433, "to": 1093357968, "width": 1.7501456936565196}, {"arrows": "to", "from": 1135021433, "to": 1101806611, "width": 1.8591700607611317}, {"arrows": "to", "from": 1135021433, "to": 1109403194, "width": 1.7537320773994531}, {"arrows": "to", "from": 1135021433, "to": 1315735637, "width": 2.120871216021426}, {"arrows": "to", "from": 1135021433, "to": 1492765963, "width": 1.721747119198375}, {"arrows": "to", "from": 1444329502, "to": 1315735637, "width": 1.9942254618380846}, {"arrows": "to", "from": 1736895964, "to": 1101806611, "width": 1.7975867488761577}, {"arrows": "to", "from": 1736895964, "to": 1315735637, "width": 1.9905713659780435}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
